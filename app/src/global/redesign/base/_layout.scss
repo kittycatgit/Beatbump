@@ -3,7 +3,6 @@
 @use "./css-variables" as *;
 html {
 	box-sizing: border-box;
-	scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch;
 	font-size: 12px;
 }
@@ -44,7 +43,6 @@ html.no-scroll {
 		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 	word-wrap: break-word;
 	-webkit-overflow-scrolling: touch;
-	scroll-behavior: smooth;
 	-webkit-text-size-adjust: 100%;
 	--base-font-size: 0.75rem;
 	--scrollbar-width: 0.916667rem;
