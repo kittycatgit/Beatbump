@@ -7,8 +7,7 @@ html {
 	-webkit-overflow-scrolling: touch;
 	font-size: 12px;
 	overscroll-behavior: contain;
-	position: fixed;
-	inset: 0;
+	height: 100%;
 }
 
 *,
@@ -26,7 +25,6 @@ body {
 	min-height: 100vh;
 	min-height: 100dvh;
 	min-width: 100vw;
-	inset: 0;
 	overscroll-behavior: contain;
 	// max-height: 100%;
 	overflow: hidden;
@@ -211,13 +209,13 @@ main {
 	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
 	display: block;
-	touch-action: pan-y;
+	touch-action: auto;
 	overscroll-behavior: contain;
 	// position: relative;
 	height: 100%;
 	inset: 0;
 	isolation: isolate;
-	contain: content;
+	contain: layout style;
 	overflow-y: hidden;
 }
 .app-content-m {
@@ -236,6 +234,9 @@ main {
 }
 .app-content-p {
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-y;
+	overscroll-behavior: contain;
 	position: absolute;
 	width: 100%;
 	inset: 0;
