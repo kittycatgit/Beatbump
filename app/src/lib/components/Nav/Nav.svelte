@@ -32,7 +32,6 @@
         window.history.go(-1);
     };
 
-    $: console.log({opacity});
 </script>
 
 <svelte:body class={!hidden ? "no-scroll" : ""}/>

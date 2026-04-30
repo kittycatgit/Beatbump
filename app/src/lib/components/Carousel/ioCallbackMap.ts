@@ -6,19 +6,10 @@ export const CALLBACK_MAP = {
 		entry: IntersectionObserverEntry,
 	) => {
 		const target = entry.target as HTMLImageElement;
-		if (entry.isIntersecting) {
-			target
-				.decode()
-				.finally(() => {
-					if (!target.dataset.src) return;
-
-					target.src = target.dataset.src;
-				})
-				.then(() => {
-					target.decode().finally(() => {
-						thisArg.unobserve(entry.target as HTMLElement);
-					});
-				});
+		if (!entry.isIntersecting) return;
+		if (target.dataset.src) {
+			target.src = target.dataset.src;
 		}
+		thisArg.unobserve(target);
 	},
 } as const;
