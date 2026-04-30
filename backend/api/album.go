@@ -66,12 +66,14 @@ func parseAlbum(playlistResponse _youtube.AlbumResponse) map[string]interface{} 
 	//musicShelf.Header.BrowseId = stringPtr(section.MusicCarouselShelfRenderer.Header.MusicCarouselShelfBasicHeaderRenderer.MoreContentButton.ButtonRenderer.NavigationEndpoint.WatchPlaylistEndpoint.PlaylistID)
 
 	//contents := make([]IListItemRenderer, 0, len(section[0].MusicCarouselShelfRenderer.Contents))
-	for _, carousel := range section[0].MusicShelfRenderer.Contents {
-		var item IListItemRenderer
+	if len(section) > 0 {
+		for _, carousel := range section[0].MusicShelfRenderer.Contents {
+			var item IListItemRenderer
 
-		item = parseMusicResponsiveListItemRenderer(carousel.MusicResponsiveListItemRenderer)
+			item = parseMusicResponsiveListItemRenderer(carousel.MusicResponsiveListItemRenderer)
 
-		items = append(items, item)
+			items = append(items, item)
+		}
 	}
 
 	header := playlistResponse.Contents.TwoColumnBrowseResultsRenderer.Tabs[0].TabRenderer.Content.SectionListRenderer.Contents[0].MusicResponsiveHeaderRenderer
