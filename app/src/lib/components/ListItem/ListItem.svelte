@@ -373,9 +373,13 @@
 			(a, b) => (a.index ?? 0) - (b.index ?? 0),
 		);
 
-		const position = cache.has(idx)
-			? cache.get(idx)
-			: cache.set(idx, queueIndex < 0 ? idx : queueIndex);
+		let position: number;
+		if (cache.has(idx)) {
+			position = cache.get(idx)!;
+		} else {
+			position = queueIndex < 0 ? idx : queueIndex;
+			cache.set(idx, position);
+		}
 		//console.log(event, position, idx, queueIndex, $list);
 		//Logger.mark(`Handle Click: ${position}`);
 		switch (page) {

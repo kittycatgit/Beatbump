@@ -394,17 +394,13 @@ export class ListService {
                     data.results.unshift(clickedItem);
                 }
 
-                const playbackIndex =
-                    keyId === 0
-                        ? 0
-                        : this.findIndexForTrack({
-                            originalVideoId: videoId,
-                            originalPlaylistId: playlistId,
-                            mix: data.results,
-                            originalIndex: keyId,
-                        }) ||
-                        keyId ||
-                        0;
+                const found = this.findIndexForTrack({
+                    originalVideoId: videoId,
+                    originalPlaylistId: playlistId,
+                    mix: data.results,
+                    originalIndex: keyId,
+                });
+                const playbackIndex = found >= 0 ? found : (keyId ?? 0);
                 const item = data.results[playbackIndex ?? 0];
 
                 const state = await this.#sanitizeAndUpdate(
@@ -508,17 +504,13 @@ export class ListService {
                     currentMixType: "playlist",
                 });
 
-                const playbackIndex =
-                    index === 0
-                        ? 0
-                        : this.findIndexForTrack({
-                            originalVideoId: videoId,
-                            originalPlaylistId: playlistId,
-                            mix: state.mix,
-                            originalIndex: index,
-                        }) ||
-                        index ||
-                        0;
+                const found = this.findIndexForTrack({
+                    originalVideoId: videoId,
+                    originalPlaylistId: playlistId,
+                    mix: state.mix,
+                    originalIndex: index,
+                });
+                const playbackIndex = found >= 0 ? found : (index ?? 0);
                 await this.updatePosition(playbackIndex);
                 Logger.mark("wow");
                 await tick();
