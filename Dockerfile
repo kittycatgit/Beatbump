@@ -42,29 +42,12 @@ COPY *.go ./
 # Build
 RUN CGO_ENABLED=0 GOOS=linux go build -o /beat-server
 
-# Stage to get CA certificates
-FROM alpine:latest AS certs
-RUN apk --no-cache add ca-certificates
+# Final stage - alpine for multi-arch (amd64 + arm64) compatibility
+FROM alpine:latest
 
-# Stage to get ffmpeg
-FROM alpine:latest AS ffmpeg-builder
-RUN apk --no-cache add ffmpeg
-
-# Final stage - use scratch
-FROM scratch
+RUN apk --no-cache add ca-certificates ffmpeg
 
 WORKDIR /app
-
-# Copy CA certificates from certs stage
-COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
-# Copy ffmpeg from ffmpeg-builder stage
-COPY --from=ffmpeg-builder /usr/bin/ffmpeg /usr/bin/ffmpeg
-COPY --from=ffmpeg-builder /usr/bin/ffprobe /usr/bin/ffprobe
-
-# Copy ffmpeg dependencies
-COPY --from=ffmpeg-builder /lib/ld-musl-x86_64.so.1 /lib/
-COPY --from=ffmpeg-builder /usr/lib /usr/lib
 
 # Copy application files
 COPY --from=backend-builder /beat-server /app/beat-server
