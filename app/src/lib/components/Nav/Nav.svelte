@@ -264,14 +264,12 @@
         grid-template-columns: 1fr 1fr 1fr;
         padding-inline: 0.6em;
         padding-inline-end: 1.2em;
-        position: absolute;
+        position: fixed;
 
         top: 0;
         left: 0;
-        width: var(--top-bar-width, calc(100% - var(--scrollbar-width) + 0.05em));
-        @media screen and (max-width: 720px) {
-            width: 100vw;
-        }
+        right: 0;
+        width: 100%;
 
         // padding-right: var(--scrollbar-width);
         grid-template-areas: "l m r";

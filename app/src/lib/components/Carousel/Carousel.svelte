@@ -95,10 +95,8 @@
 
 	function handleWheel(e: WheelEvent) {
 		if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-		const scrollContainer = document.querySelector<HTMLElement>(".app-content-p");
-		if (!scrollContainer) return;
 		e.preventDefault();
-		scrollContainer.scrollTop += e.deltaY;
+		window.scrollBy({ top: e.deltaY, behavior: "auto" });
 	}
 
 	onMount(() => {

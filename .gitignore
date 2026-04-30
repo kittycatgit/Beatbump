@@ -7,3 +7,4 @@ beatbump.db-wal
 beatbump-server.exe
 beatbump.exe
 
+/app/build

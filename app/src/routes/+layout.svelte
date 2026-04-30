@@ -50,23 +50,11 @@
             isFullscreen = false;
         }, 0);
 
-    let queueAlreadyPopulated = false;
+    $: hasplayer = $queue.length > 0;
 
-    const setAppHeightWithPlayer = () => {
-        if (queueAlreadyPopulated) return true;
-        const appElm = document.querySelector<HTMLDivElement>("#app");
-        if (appElm) {
-            queueAlreadyPopulated = true;
-            appElm.style.marginBlockEnd = "var(--player-bar-height)";
-        }
-        return true;
-    };
-
-    $: hasplayer = $queue.length
-        ? setAppHeightWithPlayer()
-        : queueAlreadyPopulated;
-
-    $: if (hasplayer && browser) setAppHeightWithPlayer();
+    $: if (browser) {
+        document.body.classList.toggle("has-player", hasplayer);
+    }
     // Setup dev debugging logs
     $: if (dev && browser) {
         console.log($SessionListService);
@@ -96,11 +84,16 @@
 
     afterNavigate(() => {
         if (!browser) return;
-        if (main) main.scrollTo({top: 0});
+        window.scrollTo({ top: 0 });
     });
 
     let scrollTop = 0;
     onMount(() => {
+        const handleScroll = () => {
+            scrollTop = window.scrollY > 100 ? 0 : 100;
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
 
         const url = new URL(window.location.href);
 
@@ -172,22 +165,15 @@ left: 0; background: var(--base-bg); font-size: 1.1rem; display: flex; flex-dire
 {/if}
 <Nav
     {key}
-    --top-bar-width={isFullscreen
-		? "calc(100%)"
-		: "calc(100% - var(--scrollbar-width) + 0.05em)"}
     bind:fullscreen={isFullscreen}
     bind:opacity={scrollTop}
 />
 <Popper {main}/>
 <div
     class="wrapper app-content-m"
-    {hasplayer}
     id="wrapper"
 >
     <Wrapper
-        on:scrolled={(e) => {
-			scrollTop = !e.detail ? 100 : 0;
-		}}
         {key}
         bind:main
     >
